@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="export_commons" />
+        <module name="export_system_service" />
+        <module name="export_cargo_interface" />
+        <module name="export_domain" />
+        <module name="export_dao" />
+        <module name="export_stat_service" />
+        <module name="export_stat_interface" />
+        <module name="export_email" />
+        <module name="export_system_interface" />
+        <module name="export_company_service" />
+        <module name="export_cargo_service" />
+        <module name="export_company_interface" />
+        <module name="export_portal_web" />
+        <module name="export_manager_web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="export_cargo_interface" target="1.8" />
+      <module name="export_cargo_service" target="1.8" />
+      <module name="export_commons" target="1.8" />
+      <module name="export_company_interface" target="1.8" />
+      <module name="export_company_service" target="1.8" />
+      <module name="export_dao" target="1.8" />
+      <module name="export_domain" target="1.8" />
+      <module name="export_email" target="1.8" />
+      <module name="export_manager_web" target="1.8" />
+      <module name="export_parent" target="1.8" />
+      <module name="export_portal_web" target="1.8" />
+      <module name="export_stat_interface" target="1.8" />
+      <module name="export_stat_service" target="1.8" />
+      <module name="export_system_interface" target="1.8" />
+      <module name="export_system_service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
