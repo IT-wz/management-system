@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+    <TITLE> ZTREE DEMO </TITLE>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <!--1. 引入相关文件 -->
+    <script src="plugins/ztree/js/jquery-1.4.4.min.js"></script>
+    <script src="plugins/ztree/js/jquery.ztree.all-3.5.js"></script>
+    <link rel="stylesheet" href="plugins/ztree/css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="plugins/ztree/css/demo.css">
+
+
+    <SCRIPT LANGUAGE="JavaScript">
+        var zTreeObj;
+        //配置
+        var setting = {
+            data: {//用于设置简单JOSN数据的激活
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: 0
+                }
+            },
+            check: { //用于激活选框显示
+                enable: true
+            }
+
+
+        };
+        //数据-- 简单类型JSON数据
+        //id  节点标识  pId  父节点标识  name  节点名称   checked 给复选框选中
+        var zNodes = [
+            {id: 1, pId: 0, name: "父节点1"},
+            {id: 11, pId: 1, name: "子节点1", checked: true},
+            {id: 12, pId: 1, name: "子节点2"}
+        ];
+        //树的初始化
+        $(document).ready(function () {
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            zTreeObj.expandAll(true);//用于展开所有节点的数据
+        });
+    </SCRIPT>
+</HEAD>
+<BODY>
+<!--2 准备位置放置树-->
+<div>
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
+
+
+<button id="btn">获取选中的节点集合</button>
+<script>
+    $("#btn").click(function () {
+        var nodes = zTreeObj.getCheckedNodes(true); // 获取选中的节点的数据
+        alert(nodes.length);
+    })
+</script>
+</BODY>
+</HTML>

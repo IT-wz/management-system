@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+   http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+   http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- 配置连接工厂 -->
+    <rabbit:connection-factory id="connectionFactory" virtual-host="saas-bk"
+                               host="127.0.0.1" port="5672" username="saas" password="saas"/>
+    <!-- 定义mq管理 -->
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <!-- 声明队列 -->
+    <rabbit:queue name="spring.mail.queue" auto-declare="true" durable="true"/>
+
+    <!--绑定队列到交换机-->
+    <rabbit:topic-exchange  id="springMailExchange" name="spring.mail.exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="spring.mail.queue" pattern="mail.#" />
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+    <!-- 定义消费者监听器  -->
+    <bean id="testMqListener" class="com.itheima.mail.listener.MailListener"/>
+
+    <!-- 定义消费者监听队列 -->
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+        <rabbit:listener ref="testMqListener" queues="spring.mail.queue"/>
+    </rabbit:listener-container>
+
+</beans>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.dao.system.UserDao">
+
+    <resultMap id="BaseResultMap" type="com.itheima.domain.system.User">
+        <id column="user_id" property="id"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="email" property="email"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="state" property="state"/>
+        <result column="company_id" property="companyId"/>
+        <result column="company_name" property="companyName"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="manager_id" property="managerId"/>
+        <result column="join_date" property="joinDate"/>
+        <result column="salary" property="salary"/>
+        <result column="birthday" property="birthday"/>
+        <result column="gender" property="gender"/>
+        <result column="station" property="station"/>
+        <result column="telephone" property="telephone"/>
+        <result column="degree" property="degree"/>
+        <result column="remark" property="remark"/>
+        <result column="order_no" property="orderNo"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+      select * from pe_user where company_id=#{companyId} order by order_no
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+      select  * from pe_user where user_id = #{id}
+    </select>
+
+    <select id="findRoleIdsByUserId" resultType="java.lang.String">
+        select role_id from pe_role_user where user_id = #{id}
+    </select>
+    <select id="findByEmail" resultMap="BaseResultMap">
+        select * from pe_user where email = #{email}
+    </select>
+
+    <insert id="save">
+        insert into pe_user (user_id, dept_id, email, user_name, password, state, company_id,
+        company_name, dept_name, manager_id, join_date, salary, birthday,
+        gender, station, telephone, degree, remark, order_no)
+        values (#{id}, #{deptId}, #{email}, #{userName}, #{password}, #{state}, #{companyId},
+        #{companyName}, #{deptName}, #{managerId}, #{joinDate}, #{salary}, #{birthday},
+        #{gender}, #{station}, #{telephone}, #{degree}, #{remark}, #{orderNo})
+    </insert>
+
+    <insert id="saveUserRole">
+        insert into pe_role_user(user_id,role_id) values(#{userId},#{roleId})
+    </insert>
+
+    <update id="update">
+        update pe_user
+        <set>
+            <if test="deptId!=null and deptId!=''">
+                dept_id =#{deptId} ,
+            </if>
+            <if test="email!=null and email!=''">
+                email =#{email} ,
+            </if>
+            <if test="userName!=null and userName!=''">
+                user_name =#{userName} ,
+            </if>
+            <if test="station!=null and station!=''">
+                station =#{station} ,
+            </if>
+            <if test="password!=null and password!=''">
+                password =#{password} ,
+            </if>
+            <if test="state!=null and state!=''">
+                state =#{state} ,
+            </if>
+            <if test="companyId!=null and companyId!=''">
+                company_id =#{companyId} ,
+            </if>
+            <if test="companyName!=null and companyName!=''">
+                company_name=#{companyName} ,
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                dept_name =#{deptName} ,
+            </if>
+            <if test="managerId!=null and managerId!=''">
+                manager_id =#{managerId} ,
+            </if>
+            <if test="gender!=null and gender!=''">
+                gender =#{gender} ,
+            </if>
+            <if test="telephone!=null and telephone!=''">
+                telephone =#{telephone} ,
+            </if>
+            <if test="birthday!=null and birthday!=''">
+                birthday =#{birthday} ,
+            </if>
+            <if test="degree!=null and degree!=''">
+                degree =#{degree} ,
+            </if>
+            <if test="salary!=null and salary!=''">
+                salary =#{salary} ,
+            </if>
+            <if test="joinDate!=null and joinDate!=''">
+                join_date =#{joinDate} ,
+            </if>
+            <if test="orderNo!=null and orderNo!=''">
+                order_no =#{orderNo} ,
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                create_by =#{createBy} ,
+            </if>
+            <if test="createDept!=null and createDept!=''">
+                create_dept =#{createDept} ,
+            </if>
+            <if test="createTime!=null and createTime!=''">
+                create_time =#{createTime} ,
+            </if>
+            <if test="updateBy!=null and updateBy!=''">
+                update_by =#{updateBy} ,
+            </if>
+            <if test="updateTime!=null and updateTime!=''">
+                update_time =#{updateTime} ,
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark =#{remark},
+            </if>
+        </set>
+        where user_id = #{id}
+    </update>
+
+    <delete id="delete">
+      delete from pe_user where user_id = #{id}
+    </delete>
+
+    <delete id="deleteUserRoleByUserId">
+        delete from pe_role_user where user_id = #{userId}
+    </delete>
+</mapper>

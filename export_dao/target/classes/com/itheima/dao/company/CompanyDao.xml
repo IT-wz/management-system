@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.company.CompanyDao">
+
+    <!--自定义映射关系-->
+    <resultMap id="BaseResultMap" type="com.itheima.domain.company.Company">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="expiration_date" property="expirationDate"/>
+        <result column="address" property="address"/>
+        <result column="license_id" property="licenseId"/>
+        <result column="representative" property="representative"/>
+        <result column="phone" property="phone"/>
+        <result column="company_size" property="companySize"/>
+        <result column="industry" property="industry"/>
+        <result column="remarks" property="remarks"/>
+        <result column="state" property="state"/>
+        <result column="balance" property="balance"/>
+        <result column="city" property="city"/>
+    </resultMap>
+    <insert id="save">
+        insert into ss_company(
+            id,
+            name,
+            expiration_date,
+            address,
+            license_id,
+            representative,
+            phone,
+            company_size,
+            industry,
+            remarks,
+            state,
+            balance,
+            city
+        )values(
+            #{id},
+            #{name},
+            #{expirationDate},
+            #{address},
+            #{licenseId},
+            #{representative},
+            #{phone},
+            #{companySize},
+            #{industry},
+            #{remarks},
+            #{state},
+            #{balance},
+            #{city}
+        )
+
+    </insert>
+    <update id="update">
+        update ss_company
+        <set>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="expirationDate != null">
+                expiration_date=#{expirationDate},
+            </if>
+            <if test="address != null and address != ''">
+                address=#{address},
+            </if>
+            <if test="licenseId != null and licenseId != ''">
+                license_id=#{licenseId},
+            </if>
+            <if test="representative != null and representative != ''">
+                representative=#{representative},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone=#{phone},
+            </if>
+            <if test="companySize != null and companySize != ''">
+                company_size=#{companySize},
+            </if>
+            <if test="industry != null and industry != ''">
+                industry=#{industry},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks=#{remarks},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="balance != null">
+                balance=#{balance},
+            </if>
+            <if test="city != null and city != ''">
+                city=#{city},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="delete">
+        delete from ss_company where id = #{id}
+    </delete>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from ss_company
+    </select>
+
+
+    <select id="findById" resultMap="BaseResultMap">
+        select * from ss_company where id = #{id}
+    </select>
+    <select id="findCount" resultType="java.lang.Long">
+        select count(1) from ss_company
+    </select>
+    <select id="findList" resultMap="BaseResultMap">
+        select * from ss_company limit #{startIndex},#{pageSize}
+    </select>
+</mapper>

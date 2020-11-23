@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.dao.system.RoleDao">
+
+    <resultMap id="BaseResultMap" type="com.itheima.domain.system.Role">
+        <id column="role_id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="company_id" property="companyId"/>
+        <result column="company_name" property="companyName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from pe_role where company_id=#{companyId} order by order_no asc ,create_time desc
+    </select>
+
+    <insert id="save">
+        insert INTO pe_role(
+        role_id,
+        name,
+        company_id,
+        company_name,
+        order_no,
+        create_by,
+        create_dept,
+        create_time,
+        update_by,
+        update_time,
+        remark
+        )
+        VALUES (
+        #{id},
+        #{name} ,
+        #{companyId} ,
+        #{companyName} ,
+        #{orderNo} ,
+        #{createBy} ,
+        #{createDept} ,
+        #{createTime} ,
+        #{updateBy} ,
+        #{updateTime} ,
+        #{remark}
+        )
+    </insert>
+
+    <insert id="saveRoleModule">
+        insert into pe_role_module (role_id,module_id) values (#{roleId},#{moduleId})
+    </insert>
+
+    <update id="update">
+        update pe_role
+        <set>
+            <if test="name!=null and name!=''">
+                name =#{name} ,
+            </if>
+            <if test="companyId!=null and companyId!=''">
+                company_id =#{companyId} ,
+            </if>
+            <if test="companyName!=null and companyName!=''">
+                company_name=#{companyName} ,
+            </if>
+            <if test="orderNo!=null and orderNo!=''">
+                order_no =#{orderNo} ,
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                create_by =#{createBy} ,
+            </if>
+            <if test="createDept!=null and createDept!=''">
+                create_dept =#{createDept} ,
+            </if>
+            <if test="createTime!=null and createTime!=''">
+                create_time =#{createTime} ,
+            </if>
+            <if test="updateBy!=null and updateBy!=''">
+                update_by =#{updateBy} ,
+            </if>
+            <if test="updateTime!=null and updateTime!=''">
+                update_time =#{updateTime} ,
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark =#{remark},
+            </if>
+        </set>
+        where role_id=#{id}
+    </update>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select * from pe_role where role_id=#{id}
+    </select>
+
+    <select id="findModuleIdsByRoleId" resultType="java.lang.String">
+        select module_id from pe_role_module where role_id = #{roleId}
+    </select>
+
+    <delete id="delete" parameterType="string">
+        delete from pe_role where role_id=#{id}
+    </delete>
+    <delete id="deleteRoleModuleByRoleId">
+        delete from pe_role_module where role_id = #{roleId}
+    </delete>
+</mapper>
