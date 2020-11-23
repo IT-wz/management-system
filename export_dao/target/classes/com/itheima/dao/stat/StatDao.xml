@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.stat.StatDao">
+
+    <!--厂家销售统计-->
+    <select id="findFactoryCharts" resultType="java.util.Map">
+        SELECT factory_name AS `name`, SUM(amount) AS `value`
+            FROM `co_contract_product`
+            WHERE company_id = #{companyId}
+            GROUP BY factory_name
+    </select>
+
+    <!--产品的销量排行榜-->
+    <select id="findSellCharts" resultType="java.util.Map">
+        SELECT product_no AS `name`,SUM(cnumber) AS `value`
+            FROM `co_contract_product`
+            WHERE company_id = #{companyId}
+            GROUP BY product_no
+            ORDER BY `value` DESC
+            LIMIT 0,10
+    </select>
+
+    <!--系统访问压力图-->
+    <select id="findOnlineCharts" resultType="java.util.Map">
+        SELECT st_online_info.`A1` AS `name`,
+       IFNULL(b.`value`,0) AS `value`
+       FROM `st_online_info`
+       LEFT JOIN
+         (SELECT DATE_FORMAT(`time`,"%H") AS `name`,COUNT(1) AS `value`
+            FROM `st_sys_log`
+            WHERE company_id = #{companyId}
+            GROUP BY `name`
+          ) AS b
+        ON st_online_info.`A1` = b.name
+    </select>
+</mapper>
